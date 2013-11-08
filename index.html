@@ -29,36 +29,80 @@
       </header>
       <section>
         <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+<a name="trinitywcflog4net" class="anchor" href="#trinitywcflog4net"><span class="octicon octicon-link"></span></a>Trinity.wcf.log4net</h3>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p>Library that supports the use of log4net with WCF</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<h3>
+<a name="nuget" class="anchor" href="#nuget"><span class="octicon octicon-link"></span></a>Nuget</h3>
+
+<p><a href="https://www.nuget.org/packages/TrinityWcfLog4Net/">Nuget Package</a></p>
+
+<h3>
+<a name="configuration" class="anchor" href="#configuration"><span class="octicon octicon-link"></span></a>Configuration</h3>
+
+<p>In web.config perform the following settings:</p>
+
+<pre><code>&lt;configuration&gt;
+  &lt;configSections&gt;
+    &lt;!-- Log4Net Configuration --&gt;
+    &lt;section name="log4net" type="log4net.Config.Log4NetConfigurationSectionHandler, log4net" requirePermission="false"/&gt;
+  &lt;/configSections&gt;
+...
+
+  &lt;log4net&gt;
+    &lt;root&gt;
+      &lt;level value="ALL"/&gt;
+      &lt;appender-ref ref="RollingFileAppender"/&gt;
+    &lt;/root&gt;
+
+    &lt;!-- *.TXT FILE CONFIGURATION --&gt;
+    &lt;appender name="RollingFileAppender" type="log4net.Appender.RollingFileAppender"&gt;
+      &lt;file value="C:\temp\Logs/.txt"/&gt;
+      &lt;appendToFile value="true"/&gt;
+      &lt;lockingModel type="log4net.Appender.FileAppender+MinimalLock"/&gt;
+      &lt;rollingStyle value="Date"/&gt;
+      &lt;param name="RollingStyle" value="Date"/&gt;
+      &lt;param name="DatePattern" value="yyyy/MM/dd"/&gt;
+      &lt;PreserveLogFileNameExtension value="true"/&gt;
+      &lt;maxSizeRollBackups value="10"/&gt;
+      &lt;maximumFileSize value="1024KB"/&gt;
+      &lt;staticLogFileName value="false"/&gt;
+      &lt;layout type="log4net.Layout.PatternLayout"&gt;
+        &lt;conversionPattern value="%newline%date [%thread] %-5level %logger %newline%message%newline"/&gt;
+      &lt;/layout&gt;
+    &lt;/appender&gt;
+  &lt;/log4net&gt;
+
+...
+
+&lt;system.serviceModel&gt;
+    &lt;behaviors&gt;
+      &lt;serviceBehaviors&gt;
+        &lt;behavior&gt;
+          &lt;!-- To avoid disclosing metadata information, 
+          set the value below to false and remove the metadata endpoint above before deployment --&gt;
+          &lt;serviceMetadata httpGetEnabled="True"/&gt;
+          &lt;!-- To receive exception details in faults for debugging purposes, 
+          set the value below to true.  Set to false before deployment 
+          to avoid disclosing exception information --&gt;
+          &lt;serviceDebug includeExceptionDetailInFaults="False"/&gt;
+          &lt;log4net/&gt;
+        &lt;/behavior&gt;
+      &lt;/serviceBehaviors&gt;
+    &lt;/behaviors&gt;
+    &lt;extensions&gt;
+      &lt;behaviorExtensions&gt;
+        &lt;add name="log4net" type="Trinity.Wcf.Log4Net.Log4NetBehaviorExtensionElement, Trinity.Wcf.Log4Net, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/&gt;
+      &lt;/behaviorExtensions&gt;
+    &lt;/extensions&gt;
+&lt;/system.serviceModel&gt;
 </code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
-
 <h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<a name="observation" class="anchor" href="#observation"><span class="octicon octicon-link"></span></a>Observation</h3>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<p>Even performing the reference to Trinity.Wcf.Log4Net.dll, ensure that it is in the bin folder of the project to run it locally.</p>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/eduardosilva">eduardosilva</a></p>
